@@ -10,42 +10,43 @@ import GoButton from './GoButton';
 import QuestionCard from './QuestionCard';
 import { getQuiz } from '../js/fetcher'
 
-
 export default function Base(props) {
   const [ pin, setPin ] = useState('')
   const [ getPin, setGetPin ] = useState(true)
   const [ submitReady, setSubmitReady ] = useState(false)
+  const [ requestSent, setRequestSent ] = useState(false)
+  const [ requestDone. setRequestDone ] = useState(false)
 
   const { box , vert } = BaseStyle()
   const centrum = { fVal:-500, dur:500 }
   
-
   useEffect((didUpdate)=>{
-  },[getPin, submitReady])
-
- 
+  },[requestSent, requestDone])
   
-  const submitRequest = (id) => {
+  const fethRoom = (id) => {
     console.log('submitRequest')
     console.log(id)
     setPin(id)
     console.log(env.apiUrl+'?id='+pin+'&op=fetchRoom')
-    setGetPin(false)
+    setRequestSent(true)
+    //setGetPin(false)
   }
 
-  const submitQuiz = (yn) => {
+  const submitAnswer = (yn) => {
     console.log('submitQuiz')
     console.log(pin)
     console.log(yn)
-    setGetPin(true)
+    //setGetPin(true)
   }
+
+  const
   
   return (
     <View style={{height: "100%", backgroundColor:"70"}}>
       <Status visible={false}/>
       <View style={vert} >
         <TextField visible={getPin} animParams={centrum} getQ={()=>submitRequest} goBtnReady={()=>setSubmitReady(true)}/>
-        <Progbar visible={false} animParams={centrum}/>
+        <Progbar visible={requestSent} animParams={centrum}/>
       </View>
       <QuestionCard visible={!getPin} animParams={centrum} sAns={submitQuiz}/>
       <GoButton visible={submitReady} goBtnProcess={()=>submitRequest(pin)} label={'PROCESS'}/>

@@ -37,8 +37,9 @@ export default function GoButton(props){
           flex: 1,
           width: '80%',
           height: 50,
-          borderWidth: 1
-        }} >
+          borderWidth: 1,
+          justifyContent: "center",
+        }}>
           <Button title={props.label} onPress={()=>props.goBtnProcess()}/>
         </View>
       </View>

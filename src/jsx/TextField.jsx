@@ -22,6 +22,11 @@ export default function TextField(props) {
       props.goBtnReady(true)
       Keyboard.dismiss()
     }
+
+    if(focus){
+      console.log("focus")
+      //setStr('')
+    }
     
     if(request!=='sent'){
       props.getQ(request)
@@ -34,19 +39,18 @@ export default function TextField(props) {
       width: "65%",
       height:50,
       top:slideThis,
-      borderWidth: focus ? 5 : 0}}>
+      borderWidth: focus ? 2 : 0}}>
       <TextInput
         style={{borderWidth:1,  height:50, textAlign:'center'}}
         placeholder={prompt}
         type="number"
         keyboardType="numeric"
         value={str}
-        onChangeText= { (text) => setStr(text.length <= 5 ? text : null )}
+        onChangeText= { (text) => setStr(text.length <= 5 ? text : '' )}
         onKeyPress= { (e) => e.key == 'Enter' ? setRequest(str) : null}
         clearTextOnFocus={true}
         onBlur={()=>setFocus(false)}
-        onFocus={()=>setFocus(true)}>
-      </TextInput>
+        onFocus={()=>setFocus(true)}/>
    </Animated.View>
   )
 }
