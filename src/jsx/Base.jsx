@@ -11,37 +11,54 @@ import QuestionCard from './QuestionCard';
 import { getQuiz } from '../js/fetcher'
 
 export default function Base(props) {
+
+  
+  const [ pathApi, setpathApi ] = useState('')
+
+  const [ progress , setProgress ] = useState(0)
+  const [ isWaiting, setWaiting ] = useState(true);
+  
+  const [ err, setErr ] = useState()
+  const [ quiz, setQuiz ] = useState()
+  
+  const [ loaded, setLoaded ] = useState(false)
   const [ pin, setPin ] = useState('')
   const [ getPin, setGetPin ] = useState(true)
   const [ submitReady, setSubmitReady ] = useState(false)
   const [ requestSent, setRequestSent ] = useState(false)
-  const [ requestDone. setRequestDone ] = useState(false)
+  const [ requestDone, setRequestDone ] = useState(false)
+
+  useEffect((didUpdate)=>{
+  },[requestSent, requestDone])
 
   const { box , vert } = BaseStyle()
   const centrum = { fVal:-500, dur:500 }
   
-  useEffect((didUpdate)=>{
-  },[requestSent, requestDone])
   
-  const fethRoom = (id) => {
+  const submitRequest= (id) => {
     console.log('submitRequest')
     console.log(id)
     setPin(id)
-    console.log(env.apiUrl+'?id='+pin+'&op=fetchRoom')
+    getQuiz(env.apiUrl+'?id='+pin+'&op=fetchRoom')
     setRequestSent(true)
     //setGetPin(false)
   }
 
-  const submitAnswer = (yn) => {
+  const requestRandom = () => {
+    path=env.apiUrl+'?'+'op=fetchRoom'
+    console.log(path)
+  }
+  
+  const submitQuiz = (yn) => {
     console.log('submitQuiz')
     console.log(pin)
     console.log(yn)
+    path=env.apiUrl+'?'+'op=fetchRoom'
     //setGetPin(true)
   }
-
-  const
   
   return (
+
     <View style={{height: "100%", backgroundColor:"70"}}>
       <Status visible={false}/>
       <View style={vert} >
@@ -49,7 +66,11 @@ export default function Base(props) {
         <Progbar visible={requestSent} animParams={centrum}/>
       </View>
       <QuestionCard visible={!getPin} animParams={centrum} sAns={submitQuiz}/>
-      <GoButton visible={submitReady} goBtnProcess={()=>submitRequest(pin)} label={'PROCESS'}/>
+      <GoButton visible={submitReady} 
+                goBtnProcess={()=> submitRequest(pin)} 
+                goBtnRestart={()=> props.reStart} 
+                goBtnDoAnother={()=> requestRandom()}
+                label={'PROCESS'}/>
     </View>
 
   )

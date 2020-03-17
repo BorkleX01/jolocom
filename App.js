@@ -6,18 +6,6 @@ import { getEnv , getQuiz } from './src/js/fetcher';
 import Base from  './src/jsx/Base'; 
 
 export default function App() {
-  const [isWaiting, setWaiting] = useState(true);
-
-
-  
-  const [pathApi, setpathApi] = useState('')
-  const [progress , setProgress] = useState(0)
-
-  const [err, setErr] = useState()
-  const [quiz, setQuiz] = useState()
-
-
-  const [loaded, setLoaded] = useState(false)
   const [pin, setPin] = useState('1337')
   const [appState, setAppState] = useState({})
   
@@ -33,7 +21,7 @@ export default function App() {
 
   async function init() {
     let path =  env.apiUrl+'?id=' + pin
-    console.log(path)
+    console.info('init', path)
     let respObj = await getQuiz(path)
     setAppState(respObj)
   }
@@ -41,7 +29,7 @@ export default function App() {
 
   return (
     <View style={{height: '100%'}}>
-      <Base appState={appState}/>
+      <Base appState={appState} startOver={()=>init()}/>
     </View>
   );
 }

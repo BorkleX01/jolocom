@@ -20,15 +20,15 @@ export default function TextField(props) {
 
     if(str.length === 4){
       props.goBtnReady(true)
-      Keyboard.dismiss()
+      //Keyboard.dismiss()
     }
 
     if(focus){
-      console.log("focus")
-      //setStr('')
+      console.log("focusxll")
+      setStr('')
     }
     
-    if(request!=='sent'){
+    if(str.length === 4){
       props.getQ(request)
       setRequest('sent')
     }
@@ -50,7 +50,9 @@ export default function TextField(props) {
         onKeyPress= { (e) => e.key == 'Enter' ? setRequest(str) : null}
         clearTextOnFocus={true}
         onBlur={()=>setFocus(false)}
-        onFocus={()=>setFocus(true)}/>
+        onFocus={()=>setFocus(true)}
+        
+        />
    </Animated.View>
   )
 }
