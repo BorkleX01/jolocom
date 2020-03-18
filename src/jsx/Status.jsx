@@ -31,7 +31,7 @@ export default function Status(props){
         justifyContent: 'center',
         flexDirection: 'column',
       }}>
-        <Text style={{textAlign: 'center'}}>Bogus ipsem lorem</Text>
+        <Text style={{textAlign: 'center'}}>{props.msg}</Text>
       </View>
     </Animated.View>
   )}

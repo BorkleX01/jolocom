@@ -10,8 +10,7 @@ export async function getEnv() {
 
 }
 
-export async function getQuiz(path,  ...rest) {
-  console.log(arguments[1])
+export async function getQuiz(path) {
   console.info("loading from : " , path)
   
   let o = {}

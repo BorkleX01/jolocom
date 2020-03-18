@@ -85,7 +85,7 @@ export default function QuestionCard(props){
               
               <Button
                 id='yes'
-                onPress = {() => props.sAns('yes')}
+                onPress = {() => props.answer('yes')}
                 title = 'YES'
               />
               
@@ -100,7 +100,7 @@ export default function QuestionCard(props){
               }}>
 
               <Button
-                onPress = {() => props.sAns('no')}
+                onPress = {() => props.answer('no')}
                 title = 'NO'
                 size={15}
               />

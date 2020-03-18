@@ -11,63 +11,79 @@ import QuestionCard from './QuestionCard';
 import { getQuiz } from '../js/fetcher'
 
 export default function Base(props) {
-
-  
-  const [ pathApi, setpathApi ] = useState('')
-
-  const [ progress , setProgress ] = useState(0)
-  const [ isWaiting, setWaiting ] = useState(true);
-  
+  const [ loaded, setLoaded ] = useState()
   const [ err, setErr ] = useState()
   const [ quiz, setQuiz ] = useState()
   
-  const [ loaded, setLoaded ] = useState(false)
   const [ pin, setPin ] = useState('')
-  const [ getPin, setGetPin ] = useState(true)
   const [ submitReady, setSubmitReady ] = useState(false)
   const [ requestSent, setRequestSent ] = useState(false)
-  const [ requestDone, setRequestDone ] = useState(false)
+  const [ statBar, setStatBar ] = useState()
 
-  useEffect((didUpdate)=>{
-  },[requestSent, requestDone])
+  useEffect((didUpdate) =>
+  {
+    if(requestSent){
+      setQuiz()
+      setErr()
+    }
+    
+    if(loaded){
+      setRequestSent(false)
+      typeof loaded.question !== 'undefined' ? setQuiz(loaded) : setErr(loaded)
+      
+    }
+
+    if(err){
+      setRequestSent(false)
+      typeof err.error === 'undefined' ? setStatBar(err) : setStatBar('API_ERROR')
+    }
+    
+  },[requestSent, loaded, err, pin])
 
   const { box , vert } = BaseStyle()
-  const centrum = { fVal:-500, dur:500 }
+  const centrum = { fVal:-1, dur:250 }
   
-  
-  const submitRequest= (id) => {
-    console.log('submitRequest')
-    console.log(id)
-    setPin(id)
-    getQuiz(env.apiUrl+'?id='+pin+'&op=fetchRoom')
+  const submitRequest= () => {
+    let path = env.apiUrl+'?id='+pin+'&op=fetchRoom'
+    console.log(path)
+    getQuiz(path)
+      .then((res)=>{setLoaded(res)})
     setRequestSent(true)
-    //setGetPin(false)
   }
 
   const requestRandom = () => {
-    path=env.apiUrl+'?'+'op=fetchRoom'
+    let path=env.apiUrl+'?'+'op=fetchRoom'
     console.log(path)
+    getQuiz(path)
+      .then((res)=>{setLoaded(res)})
   }
   
   const submitQuiz = (yn) => {
     console.log('submitQuiz')
-    console.log(pin)
-    console.log(yn)
-    path=env.apiUrl+'?'+'op=fetchRoom'
-    //setGetPin(true)
+    let path = env.apiUrl + '?id='+ pin +'&op=fetchRoom' + '&yn=' + yn
+    console.log(path)
+    getQuiz(path)
+    .then((res)=>{setLoaded(res)})
   }
   
   return (
 
     <View style={{height: "100%", backgroundColor:"70"}}>
-      <Status visible={false}/>
-      <View style={vert} >
-        <TextField visible={getPin} animParams={centrum} getQ={()=>submitRequest} goBtnReady={()=>setSubmitReady(true)}/>
-        <Progbar visible={requestSent} animParams={centrum}/>
+      <Status visible={err} msg={statBar}/>
+      <View style={vert}>
+        <TextField visible={!quiz}
+                   animParams={centrum}
+                   setPin={setPin}
+                   goBtnReady={()=>setSubmitReady(true)}/>
+        <Progbar visible={requestSent}
+                 animParams={centrum}/>
       </View>
-      <QuestionCard visible={!getPin} animParams={centrum} sAns={submitQuiz}/>
+
+      <QuestionCard visible={quiz} animParams={centrum}
+                    answer={submitQuiz}/>
+      
       <GoButton visible={submitReady} 
-                goBtnProcess={()=> submitRequest(pin)} 
+                goBtnProcess={submitRequest} 
                 goBtnRestart={()=> props.reStart} 
                 goBtnDoAnother={()=> requestRandom()}
                 label={'PROCESS'}/>

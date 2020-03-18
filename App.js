@@ -10,12 +10,12 @@ export default function App() {
   const [appState, setAppState] = useState({})
   
   useEffect(()=>{
-    if (!loaded)
+    if (!appState)
     {
       init()
     }
 
-  }, [loaded])
+  }, [])
 
   
 
