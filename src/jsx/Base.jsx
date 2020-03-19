@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StatusBar, ActivityIndicator  } from 'react-native';
-import env from '../api/expo-constants';
+//import env from '../api/expo-constants';
 
 import TextField from './TextField';
 import BaseStyle from '../css/BaseStyle';
@@ -22,7 +22,7 @@ export default function Base(props) {
   const [ statBar, setStatBar ] = useState()
   
   const [ results, setResults ] = useState()
-  const [ newTF, setNewTF ] = useState(true)
+  
   useEffect(() =>
   {
     
@@ -53,17 +53,14 @@ export default function Base(props) {
       setAnswered(false)
       setResults(false)
     }
-    if (newTF)
-    {
-      
-    }
-  },[requestSent, loaded, pin, err, answered, newTF])
+   
+  },[requestSent, loaded, pin, err, answered])
 
   const { vert } = BaseStyle()
   const centrum = { fVal:-1, dur:250 }
-  
+  const apiUrl = "http://94.156.144.118:8080/quiz"
   const submitRequest= () => {
-    let path = env.apiUrl+'?id='+pin+'&op=fetchRoom'
+    let path = apiUrl+'?id='+pin+'&op=fetchRoom'
     console.log(path)
     getQuiz(path)
       .then((res)=>{setLoaded(res)})
@@ -71,7 +68,7 @@ export default function Base(props) {
   }
 
   const requestRandom = () => {
-    let path=env.apiUrl+'?'+'op=fetchRandom'
+    let path=apiUrl+'?'+'op=fetchRandom'
     console.log(path)
     
     getQuiz(path)
@@ -80,7 +77,7 @@ export default function Base(props) {
   }
   
   const submitQuiz = (yn) => {  
-    let path = env.apiUrl + '?id='+ pin +'&op=submitAnswer' + '&yn='+yn
+    let path = apiUrl + '?id='+ pin +'&op=submitAnswer' + '&yn='+yn
     console.log(path)
     getQuiz(path)
       .then((res)=>{setAnswered(res)})
@@ -88,15 +85,7 @@ export default function Base(props) {
   }
 
   
-  const makeTF = ()=> {
-    
-    return (<TextField
-              visible={!quiz}
-              animParams={centrum}
-              setPin={setPin}
-              goBtnReady={()=>setSubmitReady(true)}/>)
-    
-  }
+  
   
   return (
 
@@ -104,7 +93,11 @@ export default function Base(props) {
       <Status visible={err} msg={statBar}/>
       <View style={vert}>
 
-        {makeTF()}
+      <TextField
+              visible={!quiz}
+              animParams={centrum}
+              setPin={setPin}
+              goBtnReady={()=>setSubmitReady(true)}/>
         
         <Progbar visible={requestSent}
                  animParams={centrum}/></View>
@@ -118,7 +111,7 @@ export default function Base(props) {
       
       <GoButton visible={submitReady} 
                 goBtnProcess={submitRequest} 
-                goBtnRestart={()=>setNewTF(true)} 
+                goBtnRestart={requestRandom} 
                 goBtnDoAnother={requestRandom}
                 label={ !loaded ? 'PROCESS' 
                         : requestSent ? '...' 

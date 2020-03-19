@@ -1,7 +1,7 @@
 {
   "expo": {
-    "scheme": "exp",
-    "name": "rnative test",
+    "scheme": "http",
+    "name": "rnative test 2",
     "slug": "jolocom",
     "privacy": "public",
     "sdkVersion": "36.0.0",
