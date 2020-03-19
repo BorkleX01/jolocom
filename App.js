@@ -34,18 +34,3 @@ export default function App() {
   );
 }
 
-/*
-    console.info(respObj)
-    console.log(respObj['error'] ? 'truly error' : 'maybe network error untruly error undefined type and value')
-    console.log(typeof respObj.error ) //true if api error undefined if not?
-    console.log(respObj.error )
-
-    console.log(respObj.question ? 'truly success' : 'not question')
-    console.log(typeof respObj.question ) //string //undefined if failed
-    console.log(respObj.question )
-
-    console.log(respObj ? 'truly caught success untruly error' : 'what then?') //catches when successful
-    console.log(typeof respObj)
-    console.log(respObj) //printable if truly error //
-
-*/

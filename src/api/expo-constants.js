@@ -5,13 +5,14 @@ export const prodUrl = "https://lunatropolis.com";
 //console.log(expo_ip)
 const ENV = {
   dev: {
-    apiUrl: "http://blinky:8080/quiz"
+    /*apiUrl: "http://blinky:8080/quiz"*/
+    apiUrl: "http://94.156.144.118:8080/quiz"
   },
   staging: {
-    apiUrl: prodUrl
+    apiUrl: "http://94.156.144.118:8080/quiz"
   },
   prod: {
-    apiUrl: prodUrl
+    apiUrl: "http://94.156.144.118:8080/quiz"
   }
 };
 

@@ -23,7 +23,7 @@ export default function TextField(props) {
       props.goBtnReady(true)
       Keyboard.dismiss()
       props.setPin(str)
-      //setRequest('sent')
+      
     }
   }, [props.visible, str, focus, request] )
 

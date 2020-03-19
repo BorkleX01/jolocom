@@ -41,7 +41,12 @@ export default function GoButton(props){
           justifyContent: "center",
         }}>
           
-          <Button title={props.label} onPress={props[props.label === 'RANDOM' ? 'goBtnDoAnother' : 'goBtnProcess']}/>
+          <Button title={props.label} onPress={props[
+            props.label === 'RANDOM' ? 'goBtnDoAnother'  
+            : props.label === 'START OVER' ? 'goBtnRestart' 
+            : props.label === 'RETRY' ? 'goBtnProcess'
+            : props.label === 'PROCESS' ? 'goBtnProcess' :
+            'goBtnProcess']}/>
           
           
         </View>
