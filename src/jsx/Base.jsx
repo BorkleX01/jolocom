@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StatusBar, ActivityIndicator  } from 'react-native';
 import env from '../api/expo-constants';
-import { Linking } from 'expo'
+
 import TextField from './TextField';
 import BaseStyle from '../css/BaseStyle';
 import Progbar from './Progbar';
@@ -12,6 +12,7 @@ import { getQuiz } from '../js/fetcher'
 
 export default function Base(props) {
   const [ loaded, setLoaded ] = useState()
+  const [ answered, setAnswered ] = useState()
   const [ err, setErr ] = useState()
   const [ quiz, setQuiz ] = useState()
   
@@ -19,26 +20,37 @@ export default function Base(props) {
   const [ submitReady, setSubmitReady ] = useState(false)
   const [ requestSent, setRequestSent ] = useState(false)
   const [ statBar, setStatBar ] = useState()
+  
+  const [ results, setResults ] = useState()
 
-  useEffect((didUpdate) =>
+
+  useEffect(() =>
   {
-    if(requestSent){
-      setQuiz()
-      setErr()
-    }
-    
-    if(loaded){
+
+    if(loaded){ 
       setRequestSent(false)
       typeof loaded.question !== 'undefined' ? setQuiz(loaded) : setErr(loaded)
-      
+        setResults()
     }
-
+    if(answered){
+      setRequestSent(false)
+      console.log(answered.answers)
+      typeof answered.answers !== 'undefined' ? setResults([answered.answers.Yes, answered.answers.No]) : setErr(answers)
+        
+    }
     if(err){
       setRequestSent(false)
-      typeof err.error === 'undefined' ? setStatBar(err) : setStatBar('API_ERROR')
+        typeof err.error === 'undefined' ? setStatBar('NET_ERROR') : setStatBar('API_ERROR')
     }
     
-  },[requestSent, loaded, err, pin])
+    if(requestSent){
+      setErr()
+      setQuiz()
+
+    }
+    
+      
+  },[requestSent, loaded, pin, err, answered])
 
   const { box , vert } = BaseStyle()
   const centrum = { fVal:-1, dur:250 }
@@ -52,18 +64,20 @@ export default function Base(props) {
   }
 
   const requestRandom = () => {
-    let path=env.apiUrl+'?'+'op=fetchRoom'
+    let path=env.apiUrl+'?'+'op=fetchRandom'
     console.log(path)
     getQuiz(path)
       .then((res)=>{setLoaded(res)})
+    setRequestSent(true)
   }
   
   const submitQuiz = (yn) => {
     console.log('submitQuiz')
-    let path = env.apiUrl + '?id='+ pin +'&op=fetchRoom' + '&yn=' + yn
+    let path = env.apiUrl + '?id='+ pin +'&op=submitAnswer' + '&yn='+yn
     console.log(path)
     getQuiz(path)
-    .then((res)=>{setLoaded(res)})
+      .then((res)=>{setAnswered(res)})
+    setRequestSent(true)
   }
   
   return (
@@ -76,17 +90,24 @@ export default function Base(props) {
                    setPin={setPin}
                    goBtnReady={()=>setSubmitReady(true)}/>
         <Progbar visible={requestSent}
-                 animParams={centrum}/>
-      </View>
+                 animParams={centrum}/></View>
+      
 
-      <QuestionCard visible={quiz} animParams={centrum}
+      <QuestionCard visible={quiz} animParams={centrum} 
+                    quiz={ quiz ? {...quiz} : null}
+                    results={ results }  
                     answer={submitQuiz}/>
       
       <GoButton visible={submitReady} 
                 goBtnProcess={submitRequest} 
                 goBtnRestart={()=> props.reStart} 
-                goBtnDoAnother={()=> requestRandom()}
-                label={'PROCESS'}/>
+                goBtnDoAnother={requestRandom}
+                label={ !loaded ? 'PROCESS' 
+                : requestSent ? '...' 
+                : err ? 'RETRY' 
+                : results ? 'RANDOM' 
+                : 'END'} />
+                
     </View>
 
   )

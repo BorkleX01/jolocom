@@ -4,7 +4,7 @@ import {View, Text, Animated, Button} from 'react-native';
 export default function QuestionCard(props){
   const[visible] = useState(false)
   const[slideThis] = useState(new Animated.Value(-1))
-  
+  const[quiz, setQuiz] = useState()
   useEffect(()=>{
     Animated.timing(
       slideThis,
@@ -13,16 +13,21 @@ export default function QuestionCard(props){
         duration: props.animParams.dur
       }
     ).start()
+
+    if(props.visible){
+        setQuiz(props.visible)
+    }
   }, [props.visible] )
 
+    
   
-
+  
+  
   return(
     <Animated.View style={{
       flex: 1,
       flexDirection: "column",
       width: '100%',
-      height: "33%",
       position: 'absolute',
       borderWidth: 1,
       justifyContent: 'center',
@@ -44,7 +49,6 @@ export default function QuestionCard(props){
           style={{
             flex: 1,
             flexDirection: 'column',
-            height: '50%',
             width: '95%',
             justifyContent: 'flex-end',
             alignItems: 'center'
@@ -61,7 +65,9 @@ export default function QuestionCard(props){
             width:"95%",
             paddingBottom:"5%"
           }}>
-            Are YOU some kind of Asshole?
+
+            {props.quiz ? props.quiz.question : "Bogus"}
+
           </Text>
           <View
             style={{
@@ -82,10 +88,11 @@ export default function QuestionCard(props){
                 borderWidth: 1,
                 justifyContent: "center"
               }}>
+              <Text>{props.results ? props.results[0]+'yes' : 'SECRET' } </Text>
               
               <Button
                 id='yes'
-                onPress = {() => props.answer('yes')}
+                onPress = {() => props.answer('Yes')}
                 title = 'YES'
               />
               
@@ -98,9 +105,9 @@ export default function QuestionCard(props){
                 borderWidth: 1,
                 justifyContent: "center",
               }}>
-
+              <Text>{props.results ? props.results[1] + 'no': 'SECRET' } </Text>
               <Button
-                onPress = {() => props.answer('no')}
+                onPress = {() => props.answer('No')}
                 title = 'NO'
                 size={15}
               />

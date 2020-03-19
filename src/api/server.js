@@ -1,14 +1,11 @@
 const http = require('http');
 const os = require('os');
 const url = require('url');
-const fs = require('fs');
 const path = require('path');
 b = require('./qasurvey-backend.js');
 
 const port = process.argv[2] || 8080;
 const expo_ip = os.networkInterfaces()
-console.log('process')
-console.log(process.argv[0])
 console.log('os.networkIF')
 console.log(expo_ip)
 

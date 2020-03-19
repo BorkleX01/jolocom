@@ -7,7 +7,7 @@ export default function GoButton(props){
       slideThis,
       {
         toValue: props.visible ? 0 : -100,
-        duration: 500
+        duration: 250
       }
     ).start()
   }, [props.visible] )
@@ -40,7 +40,10 @@ export default function GoButton(props){
           borderWidth: 1,
           justifyContent: "center",
         }}>
-          <Button title={props.label} onPress={()=>props.goBtnProcess()}/>
+          
+          <Button title={props.label} onPress={props[props.label === 'RANDOM' ? 'goBtnDoAnother' : 'goBtnProcess']}/>
+          
+          
         </View>
       </View>
     </Animated.View>

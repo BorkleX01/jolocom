@@ -7,8 +7,9 @@ export default function TextField(props) {
   const [warning, setWarning] = useState('')
   const [focus, setFocus] = useState(false)
   const [request, setRequest] = useState()
-
   const[slideThis] = useState(new Animated.Value(0))
+  
+  
   useEffect(()=>{
     Animated.timing(
       slideThis,
@@ -42,11 +43,9 @@ export default function TextField(props) {
         keyboardType="numeric"
         value={str}
         onChangeText= { (text) => setStr(text.length <= 5 ? text : '' )}
-        //onKeyPress= { (e) => e.key == 'Enter' ? setRequest(str) : null}
         clearTextOnFocus={true}
         onBlur={()=>setFocus(false)}
         onFocus={()=>setFocus(true)}
-        
         />
    </Animated.View>
   )

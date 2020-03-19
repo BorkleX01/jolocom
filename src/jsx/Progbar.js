@@ -3,27 +3,32 @@ import { View , Text, Animated} from 'react-native';
 
 export default function Progbar(props) {
   const[visible] = useState(false)
-  const[slideThis] = useState(new Animated.Value(0))
+  const[fadeThis] = useState(new Animated.Value(0))
   const[timeThis] = useState(new Animated.Value(0))
   
   useEffect(()=>{
-
+    
     Animated.timing(
-      slideThis,
+      fadeThis,
       {
         toValue: props.visible ? 1 : 0,
-        duration: 10
+        duration: 200
       }
     ).start()
 
+    
     Animated.timing(
       timeThis,
       {
         toValue: 100,
-        duration: 10000
-      }
-    ).start()
-
+        duration: 5000
+      } 
+    ).start(0)
+  
+    if(!props.visible){
+      timeThis.setValue(0)
+    }
+    
     
   }, [props.visible] )
 
@@ -32,7 +37,7 @@ export default function Progbar(props) {
       style={{
       borderWidth:1,
       width:"65%",
-      opacity:slideThis
+      opacity:fadeThis
     }}>
       <View style={{
         height:30

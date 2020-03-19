@@ -8,7 +8,7 @@ export default function Status(props){
       slideThis,
       {
         toValue: props.visible ? 0 : -100,
-        duration: 500
+        duration: 250
       }
     ).start()
   }, [props.visible] )
