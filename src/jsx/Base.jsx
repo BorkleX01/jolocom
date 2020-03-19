@@ -49,7 +49,7 @@ export default function Base(props) {
     if(requestSent){
      
       setErr()
-      setQuiz()
+      setQuiz(false)
       setAnswered(false)
       setResults(false)
     }
@@ -79,9 +79,11 @@ export default function Base(props) {
   const submitQuiz = (yn) => {  
     let path = apiUrl + '?id='+ pin +'&op=submitAnswer' + '&yn='+yn
     console.log(path)
+    
     getQuiz(path)
       .then((res)=>{setAnswered(res)})
     setRequestSent(true)
+    
   }
 
   

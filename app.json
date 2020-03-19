@@ -27,6 +27,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "testApp"
+    "description": "testApp",
+    "githubUrl": "https://github.com/BorkleX01/jolocom"
   }
 }
