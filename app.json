@@ -1,7 +1,7 @@
 {
   "expo": {
     "scheme": "http",
-    "name": "rnative test 2",
+    "name": "react-native jolocom test",
     "slug": "jolocom",
     "privacy": "public",
     "sdkVersion": "36.0.0",

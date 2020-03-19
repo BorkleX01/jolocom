@@ -47,11 +47,12 @@ export default function Base(props) {
     }
     
     if(requestSent){
-     
+      console.log(requestSent);
       setErr()
       setQuiz(false)
       setAnswered(false)
       setResults(false)
+      
     }
    
   },[requestSent, loaded, pin, err, answered])
@@ -119,7 +120,7 @@ export default function Base(props) {
                         : requestSent ? '...' 
                         : err ? 'RETRY' 
                         : results ? 'RANDOM' 
-                        : 'START OVER'} />
+                        : '...'} />
       
     </View>
 
